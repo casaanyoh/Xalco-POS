@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+    <meta charset="UTF-8">
+    <title>XALCO POS - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 flex items-center justify-center h-screen">
+    <div class="bg-white p-8 rounded-xl shadow-2xl w-96">
+        <h2 class="text-3xl font-bold mb-6 text-center text-slate-800">Login</h2>
+        <div class="mb-4">
+            <label class="block text-sm font-bold mb-2">Username</label>
+            <input type="text" id="username" class="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500">
+        </div>
+        <div class="mb-6">
+            <label class="block text-sm font-bold mb-2">Password</label>
+            <input type="password" id="password" class="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500">
+        </div>
+        <button onclick="handleLogin()" class="w-full bg-slate-800 text-white py-3 rounded-lg font-bold hover:bg-slate-900 transition">Gali System-ka</button>
+        <p id="error" class="text-red-500 text-center mt-4 font-semibold"></p>
+    </div>
+
+    <script>
+        async function handleLogin() {
+            const u = document.getElementById('username').value;
+            const p = document.getElementById('password').value;
+            const res = await fetch('/login', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({username: u, password: p})
+            });
+            const data = await res.json();
+            if(data.status === 'success') {
+                window.location.href = '/';
+            } else {
+                document.getElementById('error').innerText = data.message;
+            }
+        }
+    </script>
+</body>
+</html>
